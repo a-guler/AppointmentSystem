@@ -121,7 +121,7 @@ class SelectAppointmentForm(FlaskForm):
 
 @app.route('/', methods = ['POST','GET'])
 def index():
-    return render_template('show.html', hospital_form=selectHospitalForm())
+    return render_template('homepage.html')
 
 
 @app.route('/appointment',methods=['POST','GET'])
