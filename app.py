@@ -61,6 +61,15 @@ class Patient(db.Model):
     fname = db.Column(db.String(20), nullable=False)
     lname = db.Column(db.String(20), nullable=False)
 
+    def __init__(self,ssn,bdate,blood_type,sex,fname,lname):
+        self.ssn = ssn
+        self.bdate = bdate
+        self.blood_type =blood_type
+        self.sex = sex
+        self.fname = fname
+        self.lname = lname
+
+
 class Hospital(db.Model):
     _tablename_ = 'hospital'
     hnumber = db.Column(db.String(9), primary_key=True)
@@ -112,25 +121,7 @@ class SelectAppointmentForm(FlaskForm):
 
 @app.route('/', methods = ['POST','GET'])
 def index():
-    return render_template('show.html', hospital_form=selectHospitalForm())
-    # hnumber = ''
-    # clinic_num = ''
-    # doc_num= ''
-
-    # if request.method == "POST": 
-    #     print("HI")
-
-    # try:
-    #     Hospitals = Hospital.query.order_by(Hospital.hname).all()
-    #     hnames = []
-    #     for h in Hospitals:
-    #         hnames.append(h.hname)
-    #     return render_template('index.html',hnames = hnames)
-    # except Exception as e:
-    #     # e holds description of the error
-    #     error_text = "<p>The error:<br>" + str(e) + "</p>"
-    #     hed = '<h1>Something is broken.</h1>'
-    #     return hed + error_text
+    return render_template('homepage.html')
 
 
 @app.route('/appointment',methods=['POST','GET'])
@@ -196,7 +187,6 @@ def range(doctor,ssn,desc):
         to_be_deleted = []
         for i in app_list:
             for j in booked_app:
-                print(f'{i.app_time}, {j.app_time}')
                 if i.app_time == j.app_time:
                     to_be_deleted.append(i)    
                     print("deleted!")    
@@ -211,12 +201,6 @@ def range(doctor,ssn,desc):
 def submit_appointment(doctor,ssn,date,time,desc): 
     time =  datetime.strptime(time, '%H:%M:%S').time()
     date = datetime.strptime(date, "%Y-%m-%d").date()
-    print(doctor)
-    print(ssn)
-    print(time)
-    
-    print(date)
-    print(desc)
 
     new_app = Appointment (doctor,ssn,time,date,desc)
     try:
@@ -229,8 +213,7 @@ def submit_appointment(doctor,ssn,date,time,desc):
 @app.route("/del_appointment/<doctor>/<ssn>/<day>/<month>/<year>/<time>",methods=["POST","GET"])
 def del_appointment(doctor,ssn,day,month,year,time): 
     # time =  datetime.strptime(time, '%H:%M:%S').time()
-    print(doctor)
-    print(ssn)
+
     doctor = doctor.strip()
     day = day.strip()
     month = month.strip()
@@ -238,26 +221,21 @@ def del_appointment(doctor,ssn,day,month,year,time):
     time = time.strip()
     date = x = datetime(int(year), int(month), int(day))
     time = datetime.strptime(time, '%H:%M:%S').time()
-    print(day)
-    print(month)
-    print(year)
-    
-    print(time)
 
 
-    # try:
-    doc = Doctor.query.filter_by(full_name = doctor).first()
-    print(doc.fname)
-    app = Appointment.query.filter_by(doc_id = doc.doctor_id,
-                                        app_time = time,
-                                        app_date = date,
-                                        pat_ssn = ssn
-                                        ).delete()
-    db.session.commit()
-    print(app)                                    
-    return jsonify({'result':'success'})   
-    # except:
-    #     return jsonify({'result':'fail'})  
+    try:
+        doc = Doctor.query.filter_by(full_name = doctor).first()
+
+        app = Appointment.query.filter_by(doc_id = doc.doctor_id,
+                                            app_time = time,
+                                            app_date = date,
+                                            pat_ssn = ssn
+                                            ).delete()
+        db.session.commit()
+        print(app)                                    
+        return jsonify({'result':'success'})   
+    except:
+        return jsonify({'result':'fail'})  
 
 @app.route('/delete',methods=['POST','GET'])
 def get_apps():
@@ -270,7 +248,6 @@ def delete(ssn):
         ).join(Doctor,Doctor.doctor_id==Appointment.doc_id 
         ).join(Hospital, Hospital.hnumber==Doctor.hnumber
         ).all()
-    print(joined_table)
     rows = []
     for row in joined_table:
         app = row[0]
@@ -311,7 +288,6 @@ def doctors():
         doc_text = '<ul>'
         for doctor in doctors:
             sock_text += '<li>' + sock.fname + ', ' + sock.lname +',' + '</li>'
-            print(doctor.fname)
         sock_text += '</ul>'
         return sock_text
     except Exception as e:
@@ -337,19 +313,32 @@ def create_file():
         return render_template('add_doctor.html')
 
 
-@app.route("/personadd", methods=['POST'])
-def personadd():
-    doctor_id = request.form["doctor_id"]
-    clinic_number = request.form["clinic_number"]
-    hnumber = request.form["hnumber"]
-    fname = request.form["fname"]
-    lname = request.form["lname"]
-    phone_number = request.form["phone_number"]
-    entry = Doctor( doctor_id, clinic_number, hnumber,fname,lname,phone_number)
-    db.session.add(entry)
-    db.session.commit()
+@app.route("/personadd/<ssn>/<From>/<sex>/<fname>/<lname>/<btype>", methods=['POST'])
+def personadd(ssn,From,sex,fname,lname,btype):
+    app_list = []
 
-    return render_template("add_doctor.html")
+    dt = datetime.strptime(From, "%Y-%m-%d").date()
+   
+
+
+    try:
+        pat = Patient(ssn,dt,btype,sex,fname,lname )
+        db.session.add(pat)
+        db.session.commit()
+        result = 'success'
+        msg = 'Added Succesfully'
+    except:   
+        result = 'fail'
+        msg = 'User already exist' 
+
+    result = 'success'
+    msg = 'Added Succesfully'
+
+    msgObj = {}
+    msgObj['message'] = msg
+    msgObj['result'] = result
+    app_list.append(msgObj)
+    return jsonify({'htmlresponse': render_template('message.html', ordersrange=app_list)})   
 
 
 def datetime_range(start, end, delta):
