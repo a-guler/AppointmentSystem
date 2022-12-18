@@ -1,0 +1,50 @@
+body {
+    background-image: url('background.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    /*background-size: cover;*/
+    
+  }
+#ssn{
+    width: 10%;
+    position: fixed;
+  top: 30%;
+  left: 42%;
+  text-align: center;
+  padding: 10px;
+  border-style:none;
+}
+#baslik{
+    top: 15%;
+    left: 40%;
+    position: absolute;
+    font-size: 30px;
+   
+}
+th {
+    background-color:cornflowerblue;
+    color: aliceblue;
+  }
+  tr:nth-child(odd){background-color:rgb(138, 169, 255)}
+#search{
+    position: absolute;
+    top: 30%;
+    left: 54%;
+   padding: 10px;
+    text-align: center;
+    
+  
+  }
+ 
+ .positionTable{
+  background-color: aliceblue;
+  margin:  auto;
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  right: 20%;
+  size: 100;
+  visibility: visible;
+  text-align: center;
+ }
