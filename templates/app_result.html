@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="../static/css/main.css">
-
+<link rel="stylesheet" href="../static/css/delete.css">
 <p id="thank-you-message" class = "btn-success">
    Appointment deleted successfully
   </p>
@@ -9,21 +9,25 @@
 
 
 
-<table class="table table-bordered">
+<table class="table table-bordered" >
+   <div id="ColumnName">
     <tr>
-        <th width="30%">Hospital</th>
-        <th width="30%">Doctor</th>
-        <th width="20%">Date</th>
-        <th width="20%">Time</th>
-    </tr>
+        
+            <th width="30%">Hastane</th>
+            <th width="30%">Doktor</th>
+            <th width="20%">Tarih</th>
+            <th width="20%">Saat</th>
+        
+    </tr></div>
     {% for row in ordersrange %}
-        <tr>
+    <div id="Columns">   
+    <tr>
         <td class = "hospital">{{row.hospital}}</td>
         <td class = "doctor">  {{row.doctor}}</td>
         <td class = "date">    {{row.app_date}}</td>
         <td class = "time">    {{row.app_time}}</td>
         <td><input class = "row-button  btn-danger" type="button" id = "row_select", value = "delete"></td>
-        </tr>
+        </tr></div> 
     {% endfor %}
 </table>
 <input type="hidden" name="deletefile" value="" id="deletefileID">
