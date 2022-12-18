@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css"/>
-    <link rel="stylesheet" href="../static/css/alptekin.css">
-</head>
-<body>
+{% extends "layout.html" %}
+
+
+{% block head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
+<link rel="stylesheet" href="../static/css/main.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css"/>
+<link rel="stylesheet" href="../static/css/alptekin.css">
+{% endblock head %}
+
+
+{% block body %}
     <label id="form_label" for="form" >Hastane, Poliklinik ve Doktor Seçiniz.</label>
     <form name = 'appointment_form' id="form" class="appointment-form" method="post">
         {{ hospital_form.csrf_token() }} 
@@ -46,8 +47,9 @@
         </table>
     </div>
     
-</body>
+    {% endblock body %}
 
+    {% block script %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
 <script>
@@ -139,5 +141,4 @@
         });
     }
 </script>
-
-</html>
+{% endblock script %}
