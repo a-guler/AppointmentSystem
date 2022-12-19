@@ -78,3 +78,20 @@ tr{
     backface-visibility: visible;
     background-color: azure;
 }
+
+.selectbox{
+    align-items: center;
+    margin: 0; 
+    left: 50%; 
+    margin-right: -50%; 
+    transform: translate(-50%, -50%)
+}
+
+.selectboxdiv{
+    padding:3rem 0 .25rem;
+    position: relative; 
+    height: 50px;
+    margin: 0 auto; 
+    display: block;
+}
+

@@ -5,24 +5,26 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
 <link rel="stylesheet" href="../static/css/main.css">
+<link rel="stylesheet" href="../static/css/alptekin.css">
 {% endblock head %}
 
 {% block body %}
-<div class="jumbotron text-center">
-    <h5>Enter the user Details</h5>
+<div class="jumbotron text-center ">
+    <h2>Bilgilerinizi Giriniz</h2>
 
     <div>
-        <input type="text" name="fname" id = "fname" class="form-control" placeholder="First Name" , required>
+        <input type="text" name="fname" id = "fname" class="form-control" placeholder="Ad" , required>
     </div>
     <div>
         <input type="text" name="ssn" id="ssn" maxlength="8" minlength="8" class="form-control" placeholder="ssn"
             required />
     </div>
     <div>
-        <input type="text" name="lname" id = "lname"  class="form-control" placeholder="Last Name" , required>
+        <input type="text" name="lname" id = "lname"  class="form-control" placeholder="Soyad" , required>
     </div>
-    <div>
-        <select class="form-control" name="btype" id="btype">
+    <div class = "selectboxdiv">
+        <select class="form-select col-md-2 selectbox" name="btype" id="btype">
+            <option selected="true" disabled="disabled">Kan Tipi</option> 
             <option value="0+">0+</option>
             <option value="0-">0-</option>
             <option value="A+">A+</option>
@@ -33,22 +35,23 @@
             <option value="AB-">AB-</option>
         </select>
     </div>
-    <div>
-        <select name="sex" class="form-control" id="sex">
-            <option value="f">Female</option>
-            <option value="m">Male</option>
+    <div class = "selectboxdiv">
+        <select name="sex" class="form-select  form-select-lg selectbox col-md-2 " id="sex">
+            <option selected="true" disabled="disabled">Cinsiyet</option> 
+            <option value="f">Kadın</option>
+            <option value="m">Erkek</option>
         </select>
     </div>
-    <div class="col-md-2">
-        <input type="text" name="From" id="From" class="form-control" placeholder="Date" required />
+    <div class = "selectboxdiv">
+        <input type="text" name="From" id="From" class="form-control col-md-2 selectbox" placeholder="Tarih" required />
     </div>
-    <div>
-        <button id="submit_add">Submit</button>
+    <div class = "selectboxdiv" >
+        <button class="btn btn-primary form-control col-md-2 selectbox" id="submit_add">Kullanıcı Oluştur</button>
     </div>
+    <div id="messageBox"></div>
 </div>
 
-<div id="messageBox">
-</div>
+
 
 {% endblock body %}
 
